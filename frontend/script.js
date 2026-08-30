@@ -15,7 +15,7 @@ const songEvents = [
 
 // Show / Hide Song Name
 eventSelect.addEventListener("change", function () {
-  const selectedEvent = this.value;
+  const selectedEvent = eventSelect.value;
 
   if (songEvents.includes(selectedEvent)) {
     songNameGroup.style.display = "block";
@@ -26,7 +26,6 @@ eventSelect.addEventListener("change", function () {
     songNameInput.value = "";
   }
 });
-
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 

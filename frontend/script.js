@@ -1,11 +1,11 @@
-const form = document.getElementById("registrationForm");
+ const form = document.getElementById("registrationForm");
 const message = document.getElementById("message");
 
 const eventSelect = document.getElementById("event");
 const songNameGroup = document.getElementById("songNameGroup");
 const songNameInput = document.getElementById("songName");
 
-// Events where Song Name is required
+// Song Name is required only for these events
 const songEvents = [
   "Solo Dance 💃",
   "Group Dance (Hip-Hop, Funny, Lazy, etc.) 🕺",
@@ -18,23 +18,27 @@ eventSelect.addEventListener("change", function () {
   const selectedEvent = eventSelect.value;
 
   if (songEvents.includes(selectedEvent)) {
+    // Show Song Name
     songNameGroup.style.display = "block";
     songNameInput.required = true;
   } else {
+    // Hide Song Name
     songNameGroup.style.display = "none";
     songNameInput.required = false;
     songNameInput.value = "";
   }
 });
-form.addEventListener("submit", async (event) => {
+
+// Registration
+form.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   const registrationData = {
     studentName: document.getElementById("studentName").value.trim(),
     className: document.getElementById("className").value.trim(),
     mobile: document.getElementById("mobile").value.trim(),
-    event: document.getElementById("event").value,
-    songName: document.getElementById("songName").value.trim()
+    event: eventSelect.value,
+    songName: songNameInput.value.trim()
   };
 
   try {
@@ -57,7 +61,7 @@ form.addEventListener("submit", async (event) => {
 
       form.reset();
 
-      // Hide Song Name after successful registration
+      // Hide Song Name after registration
       songNameGroup.style.display = "none";
       songNameInput.required = false;
 
@@ -67,7 +71,8 @@ form.addEventListener("submit", async (event) => {
     }
 
   } catch (error) {
-    console.error(error);
+    console.error("Registration Error:", error);
+
     message.textContent = "❌ Server connection failed.";
     message.className = "error";
   }

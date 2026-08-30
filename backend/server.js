@@ -21,14 +21,12 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.post("/api/registrations", async (req, res) => {
   try {
-    const { studentName, className, mobile, event, songName } = req.body;
-
-    if (!studentName || !className || !mobile || !event || !songName) {
-      return res.status(400).json({
-        success: false,
-        message: "Please fill all fields."
-      });
-    }
+    if (!studentName || !className || !mobile || !event) {
+  return res.status(400).json({
+    success: false,
+    message: "Please fill all required fields"
+  });
+}
 
     const registration = new Registration({
       studentName, className, mobile, event, songName

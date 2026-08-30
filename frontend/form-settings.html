@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Form Settings</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <h1>⚙️ Registration Form Settings</h1>
+
+        <div class="table-container">
+
+            <h2>Manage Fields</h2>
+
+            <br>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="dobField"
+                >
+
+                Date of Birth
+            </label>
+
+            <br><br>
+
+            <button onclick="saveSettings()">
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function saveSettings() {
+
+            const dobEnabled =
+                document.getElementById("dobField").checked;
+
+            localStorage.setItem(
+                "dobEnabled",
+                dobEnabled
+            );
+
+            alert("✅ Form settings saved!");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Dashboard</title><link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div class="dashboard">
+<h1>🎉 Freshers Party Admin Dashboard</h1>
+<div class="stats"><div class="stat-box"><h2 id="total">0</h2><p>Total Registrations</p></div></div>
+<div class="table-container">
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+<button onclick="downloadExcel()">📊 Download Excel</button>
+<button onclick="downloadPDF()">📄 Download PDF</button>
+</div>
+<input id="search" placeholder="🔍 Search by student, class, event or song...">
+<table>
+<thead><tr><th>Student Name</th><th>Class</th><th>Mobile</th><th>Event</th><th>Song Name</th><th>Action</th></tr></thead>
+<tbody id="table"></tbody>
+</table>
+</div>
+</div>
+<script>
+if(sessionStorage.getItem("adminLoggedIn")!=="true") location.href="admin-login.html";
+let all=[];
+async function load(){
+ const r=await fetch("http://localhost:5000/api/registrations");
+ const x=await r.json();
+ if(x.success){all=x.data;render(all);document.getElementById("total").textContent=all.length;}
+}
+function render(data){
+ const t=document.getElementById("table");t.innerHTML="";
+ data.forEach(s=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${s.studentName}</td><td>${s.className}</td><td>${s.mobile}</td><td>${s.event}</td><td>${s.songName}</td>
+  <td><button class="action-btn edit" onclick="edit('${s._id}')">✏️ Edit</button>
+  <button class="action-btn delete" onclick="del('${s._id}')">🗑️ Delete</button></td>`;
+  t.appendChild(tr);
+ });
+}
+async function edit(id){
+ const s=all.find(x=>x._id===id); if(!s)return;
+ const studentName=prompt("Student Name:",s.studentName); if(studentName===null)return;
+ const className=prompt("Class:",s.className); if(className===null)return;
+ const mobile=prompt("Mobile:",s.mobile); if(mobile===null)return;
+ const event=prompt("Event:",s.event); if(event===null)return;
+ const songName=prompt("Song Name:",s.songName); if(songName===null)return;
+ const r=await fetch("http://localhost:5000/api/registrations/"+id,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({studentName,className,mobile,event,songName})});
+ const x=await r.json(); alert(x.message); if(x.success)load();
+}
+async function del(id){
+ if(!confirm("Delete this registration?"))return;
+ const r=await fetch("http://localhost:5000/api/registrations/"+id,{method:"DELETE"});
+ const x=await r.json(); alert(x.message); if(x.success)load();
+}
+
+function downloadExcel(){
+  if(!all.length){ alert("No registrations available."); return; }
+
+  const rows = all.map((s,i)=>({
+    "Sr. No.": i+1,
+    "Student Name": s.studentName,
+    "Class": s.className,
+    "Mobile Number": s.mobile,
+    "Event": s.event,
+    "Song Name": s.songName,
+    "Registered At": s.createdAt ? new Date(s.createdAt).toLocaleString() : ""
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(rows);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Registrations");
+  XLSX.writeFile(workbook, "freshers-party-registrations.xlsx");
+}
+
+function downloadPDF(){
+  if(!all.length){ alert("No registrations available."); return; }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("landscape");
+
+  doc.setFontSize(16);
+  doc.text("Freshers Party 2026 - Registrations", 14, 15);
+
+  const rows = all.map((s,i)=>[
+    i+1,
+    s.studentName,
+    s.className,
+    s.mobile,
+    s.event,
+    s.songName
+  ]);
+
+  doc.autoTable({
+    head: [["Sr.", "Student Name", "Class", "Mobile", "Event", "Song Name"]],
+    body: rows,
+    startY: 22,
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [102,126,234] }
+  });
+
+  doc.save("freshers-party-registrations.pdf");
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+ const q=e.target.value.toLowerCase();
+ render(all.filter(s=>[s.studentName,s.className,s.mobile,s.event,s.songName].some(v=>String(v).toLowerCase().includes(q))));
+});
+load();
+</script>
+</body>
+</html>

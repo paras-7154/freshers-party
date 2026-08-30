@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Login</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container login-box">
+<div class="form-box">
+<h1>🔐 Admin Login</h1><p class="subtitle">Freshers Party Admin Panel</p>
+<form id="loginForm">
+<div class="input-group"><label>Admin ID</label><input id="adminId" required></div>
+<div class="input-group"><label>Password</label><input type="password" id="adminPassword" required></div>
+<button type="submit">Login</button><p id="loginMessage"></p>
+</form>
+</div></div>
+<script>
+document.getElementById("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const id=document.getElementById("adminId").value;
+ const pw=document.getElementById("adminPassword").value;
+ if(id==="Paras09" && pw==="Patil@2004"){
+   sessionStorage.setItem("adminLoggedIn","true");
+   location.href="admin-dashboard.html";
+ }else{
+   const m=document.getElementById("loginMessage");
+   m.textContent="❌ Invalid Admin ID or Password";m.className="error";
+ }
+});
+</script>
+</body>
+</html>

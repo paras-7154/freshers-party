@@ -1,0 +1,37 @@
+const form = document.getElementById("registrationForm");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const registrationData = {
+    studentName: document.getElementById("studentName").value.trim(),
+    className: document.getElementById("className").value.trim(),
+    mobile: document.getElementById("mobile").value.trim(),
+    event: document.getElementById("event").value,
+    songName: document.getElementById("songName").value.trim()
+  };
+
+  try {
+    const response = await fetch("http://localhost:5000/api/registrations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registrationData)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      message.textContent = "🎉 Registration Successful!";
+      message.className = "success";
+      form.reset();
+    } else {
+      message.textContent = result.message || "Registration failed";
+      message.className = "error";
+    }
+  } catch (error) {
+    console.error(error);
+    message.textContent = "❌ Server connection failed.";
+    message.className = "error";
+  }
+});

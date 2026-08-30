@@ -1,4 +1,6 @@
-const express = require("express");
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
+ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
@@ -8,7 +10,11 @@ const Registration = require("./models/Registration");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
+console.log(
+  "MONGO_URI starts with:",
+  process.env.MONGO_URI?.substring(0, 20)
+);
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((error) => console.log("MongoDB Connection Error:", error));

@@ -27,7 +27,7 @@
 if(sessionStorage.getItem("adminLoggedIn")!=="true") location.href="admin-login.html";
 let all=[];
 async function load(){
- const r=await fetch("http://localhost:5000/api/registrations");
+ const r=await fetch('https://freshers-party-two.vercel.app/api/registrations')
  const x=await r.json();
  if(x.success){all=x.data;render(all);document.getElementById("total").textContent=all.length;}
 }

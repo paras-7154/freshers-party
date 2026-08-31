@@ -1,7 +1,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;min-height:100vh;background-image:url('baground.jpeg');padding:25px}
 .container{max-width:650px;margin:30px auto}
-.form-box,.table-container,.stat-box{background:#c82121;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
+.form-box,.table-container,.stat-box{background:#1f1e1e;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
 .form-box{padding:38px}
 h1{text-align:center;color:#333;margin-bottom:8px}
 .subtitle{text-align:center;color:#777;margin-bottom:28px}

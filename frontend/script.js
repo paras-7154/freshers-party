@@ -14,9 +14,9 @@ const songEvents = [
 ];
 
 
-// ===============================
+// =====================================
 // SHOW / HIDE SONG NAME
-// ===============================
+// =====================================
 
 eventSelect.addEventListener("change", function () {
 
@@ -27,7 +27,7 @@ eventSelect.addEventListener("change", function () {
     // Show Song Name
     songNameGroup.style.display = "block";
 
-    // Make Song Name required
+    // Song Name required
     songNameInput.required = true;
 
   } else {
@@ -35,7 +35,7 @@ eventSelect.addEventListener("change", function () {
     // Hide Song Name
     songNameGroup.style.display = "none";
 
-    // Make Song Name optional
+    // Song Name optional
     songNameInput.required = false;
 
     // Clear old value
@@ -44,30 +44,33 @@ eventSelect.addEventListener("change", function () {
 });
 
 
-// ===============================
+// =====================================
 // REGISTRATION
-// ===============================
+// =====================================
 
 form.addEventListener("submit", async function (event) {
 
   event.preventDefault();
 
   const registrationData = {
+    studentName: document
+      .getElementById("studentName")
+      .value
+      .trim(),
 
-    studentName:
-      document.getElementById("studentName").value.trim(),
+    className: document
+      .getElementById("className")
+      .value
+      .trim(),
 
-    className:
-      document.getElementById("className").value.trim(),
+    mobile: document
+      .getElementById("mobile")
+      .value
+      .trim(),
 
-    mobile:
-      document.getElementById("mobile").value.trim(),
+    event: eventSelect.value,
 
-    event:
-      eventSelect.value,
-
-    songName:
-      songNameInput.value.trim()
+    songName: songNameInput.value.trim()
   };
 
 
@@ -95,7 +98,6 @@ form.addEventListener("submit", async function (event) {
     console.log("Server response:", result);
 
 
-    // SUCCESS
     if (response.ok && result.success) {
 
       message.textContent =
@@ -105,15 +107,11 @@ form.addEventListener("submit", async function (event) {
 
       form.reset();
 
-      // Hide Song Name after registration
       songNameGroup.style.display = "none";
 
       songNameInput.required = false;
 
-    }
-
-    // SERVER ERROR
-    else {
+    } else {
 
       console.error(
         "Registration failed:",

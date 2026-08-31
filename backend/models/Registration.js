@@ -1,32 +1,45 @@
 const mongoose = require("mongoose");
 
-const registrationSchema = new mongoose.Schema({
-  studentName: {
-    type: String,
-    required: true
+const registrationSchema = new mongoose.Schema(
+  {
+    studentName: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    className: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    mobile: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    event: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
+    songName: {
+      type: String,
+      required: false,
+      default: "",
+      trim: true
+    }
   },
 
-  className: {
-    type: String,
-    required: true
-  },
-
-  mobile: {
-    type: String,
-    required: true
-  },
-
-  event: {
-    type: String,
-    required: true
-  },
-
-  songName: {
-    type: String,
-    required: false,
-    default: ""
+  {
+    timestamps: true
   }
+);
 
-}, { timestamps: true });
-
-module.exports = mongoose.model("Registration", registrationSchema);
+module.exports = mongoose.model(
+  "Registration",
+  registrationSchema
+);

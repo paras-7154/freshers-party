@@ -2,6 +2,7 @@ const form = document.getElementById("registrationForm");
 const message = document.getElementById("message");
 
 const eventSelect = document.getElementById("event");
+
 const songNameGroup = document.getElementById("songNameGroup");
 const songNameInput = document.getElementById("songName");
 

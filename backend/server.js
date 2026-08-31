@@ -39,17 +39,32 @@ console.log(
 );
 
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected) {
+    return;
+  }
+
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 10000
+    });
+
+    isConnected = true;
+
     console.log("MongoDB Connected");
-  })
-  .catch((error) => {
+
+  } catch (error) {
+
     console.error(
       "MongoDB Connection Error:",
       error
     );
-  });
+
+    throw error;
+  }
+}
 
 
 // =====================================

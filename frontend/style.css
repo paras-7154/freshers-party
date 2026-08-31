@@ -1,9 +1,9 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;min-height:100vh;background-image:url('baground.jpeg');padding:25px}
 .container{max-width:650px;margin:30px auto}
-.form-box,.table-container,.stat-box{background:#1f1e1e;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
+.form-box,.table-container,.stat-box{background:#000000;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.18)}
 .form-box{padding:38px}
-h1{text-align:center;color:#333;margin-bottom:8px}
+h1{text-align:center;color:#ffffff;margin-bottom:8px}
 .subtitle{text-align:center;color:#777;margin-bottom:28px}
 .input-group{margin-bottom:18px}
 label{display:block;font-weight:bold;margin-bottom:7px;color:#333}

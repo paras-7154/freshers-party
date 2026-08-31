@@ -95,7 +95,7 @@ form.addEventListener("submit", async function (event) {
 
     const result = await response.json();
 
-    console.log("Server response:", result);
+    console.log("Server response:", JSON.stringify(result, null, 2));
 
 
     if (response.ok && result.success) {
@@ -113,10 +113,7 @@ form.addEventListener("submit", async function (event) {
 
     } else {
 
-      console.error(
-        "Registration failed:",
-        result
-      );
+      console.error("Registration failed:", JSON.stringify(result, null, 2));
 
       message.textContent =
         result.error ||

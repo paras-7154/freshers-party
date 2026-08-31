@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+ const mongoose = require("mongoose");
 
 const registrationSchema = new mongoose.Schema(
   {
@@ -28,18 +28,13 @@ const registrationSchema = new mongoose.Schema(
 
     songName: {
       type: String,
-      required: false,
       default: "",
       trim: true
     }
   },
-
   {
     timestamps: true
   }
 );
 
-module.exports = mongoose.model(
-  "Registration",
-  registrationSchema
-);
+module.exports = mongoose.model("Registration", registrationSchema);
